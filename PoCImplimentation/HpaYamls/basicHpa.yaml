@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guest-record
+  labels:
+    people: free-drinker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: free-drinker
+  template:
+    metadata:
+      labels:
+        app: free-drinker
+        version: "sting-bee"
+    spec:
+      containers:
+      - name: guest-container
+        image: ibmcom/guestbook:v1
+        ports:
+        - name: http-server
+          containerPort: 3000
+        resources:
+          limits:
+            cpu: 400m
+            memory: 400Mi
+          requests:
+            cpu: 200m
+            memory: 200Mi
+            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pleasing-service
+  labels:
+    app: pleasing-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    targetPort: http-server
+  selector:
+    app: free-drinker
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: frontend-hpa
+  labels:
+    app: frontend
+
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1beta1
+    kind: Deployment
+    name: guest-record
+    
+# The downscale with this basic HPA is without any policies. That said, after five minutes, all the additional pods that
+#  created during the stress/load returns to the minimum in one go.
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 20
+
+
+# Run: siege --verbose --benchmark --internet --concurrent 255 --time 10M --file siege-urls.txt
+# To generate load 
+# Note, be sure to use *your node's ip* in the urls like: http://yourNodeExternalIp:yourServicePort/

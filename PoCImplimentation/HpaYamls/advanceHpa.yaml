@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pivot-europe
+spec:
+  selector:
+    matchLabels:
+      run: pivot-europe
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: pivot-europe
+    spec:
+      containers:
+      - name: pivot-container
+        image: deis/hpa-example #This image has a cpu extensive loop that generates
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+              cpu: "250m" 
+              memory: "190Mi"
+    #requests must be < limits
+          requests:
+              cpu: "210m"
+              memory:  "180Mi"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: pivot-europe
+  labels:
+    run: pivot-europe
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    targetPort: 80
+  selector:
+    run: pivot-europe
+
+---
+
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: pivot-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: pivot-europe
+  minReplicas: 1
+  maxReplicas: 10
+  behavior:
+
+    scaleDown:
+    # StabilizationWindowSeconds is the number of seconds for which past recommendations should be considered while scaling up or scaling down.
+      stabilizationWindowSeconds: 30 #seconds
+      policies:
+      - type: Percent
+        value: 70 
+        # PeriodSeconds specifies the window of time for which the policy should hold true. In other words, the period between scaling operations for a given policy.
+        periodSeconds: 15 #seconds 
+        
+    scaleUp:
+    # For scaling up there is no stabilization window. When the metrics indicate that the target should be scaled up the target is scaled up immediately.
+      stabilizationWindowSeconds: 0 #seconds
+      policies:
+      - type: Percent
+        value: 10
+        periodSeconds: 5 #seconds
+      - type: Pods
+        value: 4
+        periodSeconds: 10 #seconds
+      selectPolicy: Max # The maximum value from the policies will be applied for the scaleUp operation
+
+# the metric to use for scaling 
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+
+# Note, you will also have to enable *Metrics server* so that HPA can work.
+
+# Once deployed we can test things like using:
+# -------------------------------------------------- generate load  -------------------------------------------
+# Install the *siege*, a command lint tool, using: sudo apt-get install siege -y if you are on Ubuntu 20.04
+# then run:
+  # siege --verbose --benchmark --internet --concurrent 255 --time 10M --file siege-urls.txt (Note be sure to use *your node's ip* in the urls like: http://yourNodeExternalIp:yourServicePort/)
+# Now you are generating some load.
+# To see the HPA in action you can use a tool like kubectl with the watch flag (for your deployment that you are autoscaling).
+# --------------------------------------------------  -------------------------------------------

@@ -1,0 +1,30 @@
+apiVersion:  v1
+kind: ResourceQuota
+metadata:
+  name: pivot-quota
+  namespace: pivot
+spec:
+  hard:
+    limits.cpu: "2100m" #Across all pods in a non-terminal state, the sum of CPU limits cannot exceed this value.
+    limits.memory: 1900Mi #Across all pods in a non-terminal state, the sum of memory limits cannot exceed this value
+    requests.cpu: "2100m" #Across all pods in a non-terminal state, the sum of CPU requests cannot exceed this value.
+    requests.memory: 1900Mi #Across all pods in a non-terminal state, the sum of memory requests cannot exceed this value.
+#Note that the limit and request above are the same as we don't want resources in the namespace to not be fully available. If you only define 
+#Request the will be == to limits
+    pods: "10"
+    replicationcontrollers: "3"
+    resourcequotas: "1"
+    configmaps: "4"
+    services: "4"
+
+# Gi = GiB = Gibibyte. 1Gi = 2³⁰ = 1,073,741,824 bytes
+# M = Megabyte. 1M = 1,000,000 bytes
+# Mi = MiB = Mebibyte. 1Mi = 2²⁰ = 1,048,576 bytes
+
+#Overall cluster resourcess that are used for the PoC
+
+      # Node name:           minikube
+      # Capacity:
+      #   cpu:                3
+      #   memory:             4987340Ki == 5.10703616 GB
+      #   pods:               110

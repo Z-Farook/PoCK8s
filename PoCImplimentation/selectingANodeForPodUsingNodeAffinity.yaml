@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod-with-affinity
+spec:
+  affinity:
+    nodeAffinity:
+    # the pod must (requiredDuringScheduling) meet the criteria, hard requirements. We also have a soft version (preferredDuringScheduling) 
+    # which can also be used if desired.
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: my-handsome-node-key
+            operator: In
+            values:
+            - my-handsome-value
+  containers:
+    - name: httpd-containers 
+      image: httpd
+      resources:
+        limits:
+          memory: "250Mi"
+          cpu: "300m"
+        requests:
+            memory: "180Mi"
+            cpu: "210m"

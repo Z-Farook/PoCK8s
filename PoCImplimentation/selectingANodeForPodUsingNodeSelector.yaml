@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd-deployment
+spec:
+  selector:
+    matchLabels:
+      app: apache-pod
+  template:
+    metadata:
+      labels:
+        app: apache-pod
+    spec:
+      containers:
+      - name: httpd-containers 
+        image: httpd
+        resources:
+          limits:
+            memory: "250Mi"
+            cpu: "300m"
+          requests:
+            memory: "180Mi"
+            cpu: "210m"
+        ports:
+        - containerPort: 80
+      nodeSelector:
+        #the key value pair (the label on the node) to select the node  
+        size: medium

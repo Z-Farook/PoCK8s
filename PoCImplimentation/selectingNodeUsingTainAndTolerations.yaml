@@ -1,0 +1,37 @@
+# Firstly, you need to taint the node with a command like: kubectl taint node <yourNodeName>  key1=value1:NoSchedule //Note, the NoSchedule is the kind of the effect.
+apiVersion: v1
+kind: Pod
+metadata:
+      name: pod1
+      labels:
+        sun: shine-party
+spec:
+  containers:
+    - name: guest-container
+      image: ibmcom/guestbook:v1
+      resources:
+        limits:
+            cpu: "250m" 
+            memory: "190Mi"
+  #requests must be < limits
+        requests:
+            cpu: "210m"
+            memory:  "180Mi"
+        
+# Tolerations will tell the pod that it can tolerate the taint of a node, so it will be able to schedule on the matching tainted node.
+  tolerations: 
+    - effect: NoSchedule  #allowed values are NoSchedule, PreferNoSchedule and NoExecute.
+      key: goodHost
+      operator: Equal
+      value: but-not-everyone-is-welcome #Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.
+
+# We are not limited to just one tolerance. That said, if necessary we can apply more than one which can be different from the first, for example:
+    # - effect: "NoSchedule"
+    #   key: "xyz"
+    #   operator: "Exists"
+
+# ================================================================================================================================================================
+# Lastly, if you need to remove a taint on a node then just put a minus sign behind the same command that was used to add the taint, for example:
+# kubectl taint node <yourNodeName>  key1=value1:NoSchedule-
+# Tip, you can put a taint with the *effect: NoExecute* on a node and it will delete all the already existing *pods* 
+# that will not have toleration matching to this pod. This can be handy if you do not want to remove every single pod manually.

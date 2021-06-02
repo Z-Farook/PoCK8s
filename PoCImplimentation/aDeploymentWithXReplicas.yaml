@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tomcat-deployment
+  labels:
+    app: tomcat
+    namespace: pivot
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: tomcat
+  template:
+    metadata:
+      labels:
+        app: tomcat
+    spec:
+      containers:
+      - name: tomcat
+        image: tomcat
+        resources:
+          limits:
+            cpu: "250m" 
+            memory: "190Mi"
+  #requests must be < limits
+          requests:
+            cpu: "210m"
+            memory:  "180Mi"
+        ports:
+        - containerPort: 80
+
+# Please read this important note(s)!!!
+              
+#--------------------------------- *** A VERY TRICKY THING about REPLICAS *** ---------------------------------
+# 1: is that it only creates the number of pods whose total resource request does not exceed the
+#    resource Quota on the namespace and it does not generate an error while deploying it.
+# 2: When using Kind: deployment, If your container resources request under the spec field violates quota rules, 
+#    you will not get a violation error when working with Kubectl! 

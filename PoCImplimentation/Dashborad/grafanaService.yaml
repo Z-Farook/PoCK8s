@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: monitoring
+  annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/port:   '3000'
+spec:
+  selector: 
+    app: grafana
+  type: LoadBalancer
+  ports:
+    - port: 3000
+      targetPort: 3000
+# Note: once everything is running
+#1: got to: http://<youNodeIp>:3000 you will be prompted to login and then use "admin" for the username and password. 
+# You can then set a new password as desired.
+ 
