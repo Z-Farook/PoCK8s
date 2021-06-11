@@ -27,10 +27,10 @@ spec:
 
 # The aggregated resources overview of the namespace *pivot*
  
-  #   limits.cpu: "1500m" 
+  #   limits.cpu: "2100m"
   #   limits.memory: 1900Mi
-  #   requests.cpu: "700m"
-  #   requests.memory: 900Mi
+  #   requests.cpu: "2100m" 
+  #   requests.memory: 1900Mi
   #   pods: "10"
   #   replicationcontrollers: "3"
   #   resourcequotas: "1"

@@ -34,5 +34,5 @@ spec:
 #--------------------------------- *** A VERY TRICKY THING about REPLICAS *** ---------------------------------
 # 1: is that it only creates the number of pods whose total resource request does not exceed the
 #    resource Quota on the namespace and it does not generate an error while deploying it.
-# 2: When using Kind: deployment, If your container resources request under the spec field violates quota rules, 
+# 2: is that when using deployment, If your container resources request, under the spec field, violates quota rules, 
 #    you will not get a violation error when working with Kubectl! 
