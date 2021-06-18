@@ -1,5 +1,5 @@
 Feature: Apply a HorizontalPodAutoscaler 
-    R5, R6
+    SR-5 and SR-6
     To automatically scale resources, such as replication controller, deployment, replica set or 
     stateful set based on observed CPU utilization, we need to apply a HPA to the resource that we want to autoscale.
 

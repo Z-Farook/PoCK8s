@@ -1,5 +1,5 @@
 Feature: Access control with Namespaces
-    R2
+    SR-2
     We need to prevent tenants from sneaking into a restricted environment, resources, and their actions in an environment.
 
     Background:

@@ -1,5 +1,5 @@
 Feature: Create a Namespace
-    R1
+    SR-1
     We need to isolate tenants to do that we must have a Namespace(s). 
 
     Background:

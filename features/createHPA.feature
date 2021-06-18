@@ -1,5 +1,5 @@
 Feature: Create a HorizontalPodAutoscaler with scaleTargetRef, minReplicas and maxReplica
-    R7
+    SR-7
     To autoscale resources dynamically, HPA needs to have minReplicas and maxReplicas, such as for Pod, so that the K8s does not
     keep creating pods or kill all of them. In addition, a threshold value, scaleTargetRef, is necessary to ensure that K8s will trigger adding or removing new resources, like Pods, 
     between minReplicas and maxReplicas appropriately.

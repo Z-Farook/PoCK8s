@@ -1,5 +1,5 @@
 Feature: Default resource Min and MAx using 'LimitRange' object
-    R13
+    SR-13
     The use cases found in the file "defaultRequestAndLimit.feature" show how we can define Limit and Request for each pod using LimitRange. LimitRange object
     can also be used to set minimum and maximum resource usage per pod or container in a namespace.
 

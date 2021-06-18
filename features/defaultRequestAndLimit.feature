@@ -1,5 +1,5 @@
 Feature: Default resource Request and Limit using 'LimitRange' object
-    R12
+    SR-12
     Applying resource Quota to a namespace obliges us to define Requests and Limits for resources to be placed in it. This can get repetitive if more than a few 
     objects are to be created and require the same amount of resources. To avoid this mundane, K8s provides the "LimitRange" object to set the default amount of
     resourcess, such as CPU and RAM,  to be applied to objects placed in a namespace if nothing is specified in their manifest files.

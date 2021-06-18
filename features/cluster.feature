@@ -1,5 +1,5 @@
 Feature: Virtual cluster creation
-    R8
+    SR-8
     There should be one large cluster instead of many small for each tenant. For the PoC, 
     we buy a cluster with +- 4 CPU and 4Gb of RAM that has an imaginary cost, 100 dollars.
     

@@ -1,5 +1,5 @@
 Feature: Selecting a right node for a resource to be created/schedueld
-    R9 and R14
+    SR-9 and SR-14
     K8s's scheduler is pretty good at automatically placing the application pods over the available node, however, in some circumstances, 
     we want to be in charge to decide which "Node" is going to "host a particular pod". For this controlling desire, we should label our Node 
     and then use "nodeSelector" in the pod's spec to ensure the placement as we please.

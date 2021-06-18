@@ -1,5 +1,5 @@
 Feature: Resource Quotas for Namespace
-    R3 and R4
+    SR-3 and SR-4
     We must prevent tenants from overusing the resources. This is accomplished by applying resource quotas to a namespace.
 
     Background:

@@ -1,5 +1,5 @@
 Feature: Consistent Pod availability using ReplicaSet  
-    R10 and R11
+    SR-10 and SR-11
     As we will be dealing with dynamic resource management, it is important that there is always a stable number
     of pods (identical replicas) are running to ensure a certain (least) availability at any given time. A ReplicaSet is 
     configured with 'fields' along with a 'selector or matchExpressions' that describe how the pod to be replicated will be determined. K8s stresses 
