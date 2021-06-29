@@ -17,10 +17,10 @@ spec:
         memory: "250Mi"
 # Max and Min CPU and RAM allowed per container when defined by a developer
       max: 
-      #This must be > defualt Limit and defaultRequest, as if it is < default then it will not work
+      #This must be > default Limit and defaultRequest, as if it is < default then it will not work
         cpu: "1002m"  
         memory: "700Mi"
-      #This must be < defualt Limit and defaultRequest, as if it is > default then it will not work
+      #This must be < default Limit and defaultRequest, as if it is > default then it will not work
       min:
         cpu: "210m"
         memory: "180Mi"

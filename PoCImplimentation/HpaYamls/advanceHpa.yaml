@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: pivot-container
-        image: deis/hpa-example #This image has a cpu extensive loop that generates
+        image: deis/hpa-example #This image has a cpu extensive loop that generates CPU load
         ports:
         - containerPort: 80
         resources:
